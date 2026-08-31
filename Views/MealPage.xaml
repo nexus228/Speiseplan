@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               
+             x:Class="Speiseplan.Views.MealPage"
+             xmlns:model="clr-namespace:Speiseplan.Model"
+             xmlns:viewmodel="clr-namespace:Speiseplan.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="MealPage">
+    <Grid>
+
+        <CollectionView
+    ItemsSource="{Binding MealItems}"
+    SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Meal">
+                    <VerticalStackLayout Spacing="8">
+
+                        <!-- MealIdentifier / Separator -->
+                        <Grid
+                    Margin="10,15,0,5"
+                    ColumnDefinitions="Auto,*"
+                    ColumnSpacing="10">
+
+                            <Label
+                        Text="{Binding Identifier}"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        VerticalOptions="Center" />
+
+                        </Grid>
+
+                        <!-- Meal -->
+                        <Border
+                    Padding="15"
+                    StrokeThickness="1">
+
+                            <VerticalStackLayout>
+
+                                <HorizontalStackLayout Margin="0,0,0,10">
+
+                                    <Image 
+                                        Source="{Binding ImageUrl}"
+                                        WidthRequest="100">
+                                        
+                                    </Image>
+                                    
+                                    <Label
+                                        Text="{Binding Name}"
+                                        VerticalTextAlignment="Center"
+                                        TextColor="Black"
+                                        FontSize="16" />
+
+                                </HorizontalStackLayout>
+                                
+                               
+
+                                <HorizontalStackLayout>
+                                    <Button Text="Bearbeiten" BackgroundColor="{DynamicResource Primary}" Margin="0,0,10,0"/>
+                                    <Button 
+                                        Text="Rezept anzeigen" 
+                                        BackgroundColor="{DynamicResource Primary}"
+                                        IsEnabled="{Binding HasReceipt}"/>
+
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
+                            
+                            
+
+                        </Border>
+
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

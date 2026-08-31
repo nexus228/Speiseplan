@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Speiseplan.Views.StartPage"
+             Title="StartPage">
+
+    <Grid>
+        <Grid IsVisible="{Binding IsOffline}">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <Image Source="cloud_off_outline.png" Aspect="AspectFit" HeightRequest="100" WidthRequest="100"/>
+
+                <Label Text="Keine Internetverbindung!" FontSize="22" HorizontalOptions="Center" Margin="10"/>
+                <Label Text="Zum Laden der Speisepläne wird eine Internetverbindung benötigt." 
+                       FontSize="14" 
+                       TextColor="DarkSlateGray"
+                       HorizontalOptions="Center" 
+                       HorizontalTextAlignment="Center"
+                       />
+
+                <Button 
+                    BackgroundColor="{DynamicResource Primary}" 
+                    Text="Erneut versuchen"
+                    FontSize="18"
+                    Margin="20"
+                    Command="{Binding LoadDataCommand}"/>
+               
+            
+            </VerticalStackLayout>
+        </Grid>
+
+        <Grid IsVisible="{Binding IsLoading}">
+            <ActivityIndicator Color="#549A30" IsRunning="True" HeightRequest="200" WidthRequest="200"/>
+        </Grid>
+    </Grid>
+
+
+</ContentPage>

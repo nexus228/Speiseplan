@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Speiseplan.Views.MenuPage"
+             xmlns:local="clr-namespace:Speiseplan"  
+             xmlns:model="clr-namespace:Speiseplan.Model"
+             xmlns:viewmodel="clr-namespace:Speiseplan.ViewModels"   
+             xmlns:ui="clr-namespace:Speiseplan.UI"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="MenuPage">
+
+    <Grid>
+
+        <RefreshView
+        Command="{Binding LoadMenusCommand}"
+        IsRefreshing="{Binding IsRefreshing}">
+
+            <CollectionView ItemsSource="{Binding MenuItems}" >
+              
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout
+                    Orientation="Vertical"
+                    ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Menu">
+                        <Border 
+                            StrokeShape="RoundRectangle 10"
+                            Stroke="Gold"
+                            StrokeThickness="2.5"                        
+                            BackgroundColor="Transparent"                                                    
+                            Margin="20">
+
+                            <Border.Behaviors>
+                                
+                            </Border.Behaviors>
+
+                            
+
+                            <VerticalStackLayout>
+                                <VerticalStackLayout.Behaviors>
+                                    
+                                </VerticalStackLayout.Behaviors>
+
+                                <Grid>
+                                    <Grid.Behaviors>
+                                        <toolkit:TouchBehavior
+    PressedScale="0.95"
+    PressedOpacity="0.7"/>
+                                    </Grid.Behaviors>
+
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer
+        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MenuPageViewModel}}, Path=ItemSelectedCommand}"
+        CommandParameter="{Binding .}" />
+                                    </Grid.GestureRecognizers>
+
+                                    <Image Source="menubackground_image.png" HeightRequest="125" Aspect="AspectFill"/>
+                                    <VerticalStackLayout Margin="25">
+
+                                        <Label
+            Text="{Binding Name}"
+            MaxLines="1"
+            
+            FontAttributes="Bold"
+            FontSize="Large"
+            TextColor="White" 
+            HorizontalTextAlignment="Center"/>
+
+                                        <Label
+            Text="{Binding CombinedDateText}"
+            FontAttributes="Bold"
+            FontSize="Medium"
+            TextColor="DarkGrey" 
+            HorizontalTextAlignment="Center" Margin="5"/>
+
+                                    </VerticalStackLayout>
+
+                                </Grid>
+
+
+                                <Grid ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <ui:AnimatedButton Grid.Column="0" Text="Bearbeiten" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MenuPageViewModel}}, Path=EditMenuCommand}" CommandParameter="{Binding .}"/>
+
+                                    <ui:AnimatedButton Grid.Column="1" Text="Löschen" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MenuPageViewModel}}, Path=DeleteMenuCommand}" CommandParameter="{Binding .}"/>
+                                </Grid>
+
+                            </VerticalStackLayout>
+                            
+                            
+
+
+
+
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </RefreshView>
+
+        <!-- Floating Action Button -->
+        <Button
+        WidthRequest="60"
+        HeightRequest="60"
+        CornerRadius="30"
+        BackgroundColor="{StaticResource Primary}"
+        HorizontalOptions="End"
+        VerticalOptions="End"
+        Margin="20"
+        Command="{Binding CreateMenuCommand}">
+
+            <Button.ImageSource>
+                <FontImageSource
+                Glyph="+"
+                Size="28"
+                Color="White"/>
+            </Button.ImageSource>
+
+        </Button>
+        
+        
+        <Grid
+        BackgroundColor="#01000000"
+        IsVisible="{Binding IsRefreshing}" />
+
+    </Grid>
+</ContentPage>

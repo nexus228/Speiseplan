@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Speiseplan.Views.CreateMenuPage"
+             xmlns:ui="clr-namespace:Speiseplan.UI"          
+             Title="CreateMenuPage">
+    <Grid>
+     
+        <VerticalStackLayout
+ Padding="20"
+ Spacing="15">
+
+            <Entry
+     Placeholder="Name des Menüs"
+     Text="{Binding Name}" />
+
+            <Label Text="Startdatum"/>
+
+            <DatePicker
+         Date="{Binding StartDate}" Format="dd/MM/yyyy"/>
+
+            <Label Text="Enddatum"/>
+
+            <DatePicker
+         Date="{Binding EndDate}" Format="dd/MM/yyyy"/>
+
+
+            <ui:AnimatedButton Text="Menü erstellen"
+Command="{Binding CreateMenuCommand}"/>
+ 
+
+        </VerticalStackLayout>
+
+        <ActivityIndicator 
+IsRunning="{Binding IsLoading}" 
+IsVisible="{Binding IsLoading}" 
+            Color="AliceBlue"
+HorizontalOptions="Center" 
+VerticalOptions="Center" />
+
+    </Grid>
+   
+</ContentPage>

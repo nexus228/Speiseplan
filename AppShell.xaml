@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Speiseplan.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Speiseplan"
+    xmlns:views="clr-namespace:Speiseplan.Views"
+    Title="Speiseplan">
+
+
+
+    <TabBar>
+
+        <Tab Title="Aktuell" Icon="food_bank_24dp.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate views:CurrentDayPage}"
+                Route="CurrentDayPage" />
+        </Tab>
+        <Tab Title="Speiseplan" Icon="calendar_meal_24dp.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate views:MenuPage}"
+                Route="MenuPage" />
+        </Tab>
+        <Tab Title="Favorites" Icon="favorite_24dp.png">
+            <ShellContent 
+                ContentTemplate="{DataTemplate views:FavoritesPage}" 
+                Route="FavoritesPage" />
+        </Tab>
+    </TabBar>
+
+   
+
+</Shell>
