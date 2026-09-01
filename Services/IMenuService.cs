@@ -14,5 +14,7 @@ namespace Speiseplan.Services
         public Task GetAllMenusAsync();
 
         public Task<bool> DeleteMenuAsync(int id);
+
+        public Task<bool> UpdateMealAsync(Meal meal);
     }
 }

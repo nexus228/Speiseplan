@@ -37,7 +37,7 @@ namespace Speiseplan.ViewModels
         public List<Menu>? MenuItems
         {
             get => _menuItems;
-            private set
+            set
             {
                 _menuItems = value;
                 OnPropertyChanged(nameof(MenuItems));

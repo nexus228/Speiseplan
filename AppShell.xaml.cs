@@ -12,6 +12,7 @@ namespace Speiseplan
             Routing.RegisterRoute(nameof(CreateMenuPage), typeof(CreateMenuPage));
             Routing.RegisterRoute(nameof(DayPage), typeof(DayPage));
             Routing.RegisterRoute(nameof(MealPage), typeof(MealPage));
+            Routing.RegisterRoute(nameof(EditMealPage), typeof(EditMealPage));
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Speiseplan.Model
+﻿namespace Speiseplan.Model
 {
     public class Meal
     {
@@ -13,6 +9,18 @@ namespace Speiseplan.Model
         public string? Name { get; set; }
 
         public string? Description { get; set; }
+
+        public string? ReceiptURL { get; set; }
+
+        public bool HasReceipt
+        {
+            get 
+            {
+                return !String.IsNullOrEmpty(ReceiptURL);
+            }
+        }
+
+        public string? ImageURL { get; set; }
 
         public MealIdentifier? Identifier { get; set; }
     }

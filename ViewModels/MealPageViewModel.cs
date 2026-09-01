@@ -1,7 +1,11 @@
 ﻿using Speiseplan.Model;
+using Speiseplan.Services;
+using Speiseplan.Utils;
+using Speiseplan.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 
 namespace Speiseplan.ViewModels
 {
@@ -9,6 +13,7 @@ namespace Speiseplan.ViewModels
     {
         private IList<Meal> _mealItems;
 
+        private INavigationService _navigationService;
 
         public IList<Meal>? MealItems
         {
@@ -25,9 +30,14 @@ namespace Speiseplan.ViewModels
 
         public Day? Day { get; private set; }
 
-        public MealPageViewModel()
+        public ICommand EditItemCommand { get; }
+
+        public MealPageViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService;
             _mealItems = new List<Meal>();
+
+            EditItemCommand = new Command<Meal>(EditItemDesired);
         }
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -50,5 +60,19 @@ namespace Speiseplan.ViewModels
         {
             throw new NotImplementedException();
         }
+
+
+        #region private functions
+        private void EditItemDesired(Meal meal)
+        {
+            if (meal == null)
+                return;
+
+            Logger.Info($"Ausgewählt: {meal.Name}");
+
+            _navigationService.GoTo(nameof(EditMealPage), meal);
+        }
+
+        #endregion
     }
 }

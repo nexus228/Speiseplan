@@ -65,5 +65,22 @@ namespace Speiseplan.Services
             HttpResponseMessage httpResponseMessage = await _httpClient.DeleteAsync($"api/menu/{id}");
             return httpResponseMessage.IsSuccessStatusCode;
         }
+
+        public async Task<bool> UpdateMealAsync(Meal meal)
+        {
+            bool returnValue = false;
+            var response = await _httpClient.PostAsJsonAsync("api/meal", meal);
+
+            if (response.IsSuccessStatusCode)
+            {
+                returnValue = true;
+            }
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(error);
+            }
+            return returnValue;
+        }
     }
 }

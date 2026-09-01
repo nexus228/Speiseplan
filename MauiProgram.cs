@@ -36,6 +36,7 @@ namespace Speiseplan
             builder.Services.AddTransient<DayPageViewModel>();
             builder.Services.AddTransient<MealPageViewModel>();
             builder.Services.AddTransient<CurrentDayPageViewModel>();
+            builder.Services.AddTransient<EditMealViewModel>();
 
             builder.Services.AddTransient<StartPage>();
             builder.Services.AddTransient<CurrentDayPage>();
@@ -44,6 +45,7 @@ namespace Speiseplan
             builder.Services.AddTransient<CreateMenuPage>();
             builder.Services.AddTransient<DayPage>();
             builder.Services.AddTransient<MealPage>();
+            builder.Services.AddTransient<EditMealPage>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
