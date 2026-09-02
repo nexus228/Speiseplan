@@ -1,13 +1,14 @@
 ﻿
 using Speiseplan.Model;
+using Speiseplan.Services.CustomEventArgs;
 
 namespace Speiseplan.Services
 {
     public interface IMenuService
     {
-        List<Menu>? MenuList { get; }
+        IReadOnlyList<Menu> MenuList { get; }
 
-        event EventHandler? MenuListHasChanged;
+        event EventHandler<MenusChangedEventArgs>? MenusChanged;
 
         public Task<bool> CreateMenu(string name, DateTime startDate, DateTime endDate);
 

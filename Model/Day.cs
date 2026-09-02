@@ -23,8 +23,7 @@ namespace Speiseplan.Model
             }
             set; 
         }
-        
 
-        public IList<Meal>? Meal { get; set; }
+        public IList<Meal> Meal { get; set; } = new List<Meal>();
     }
 }

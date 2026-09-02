@@ -1,7 +1,9 @@
-﻿using Speiseplan.Services;
-using Speiseplan.Model;
-using System.Windows.Input;
+﻿using Speiseplan.Model;
+using Speiseplan.Services;
+using Speiseplan.Services.CustomEventArgs;
+using Speiseplan.Services.Enum;
 using Speiseplan.Views;
+using System.Windows.Input;
 
 namespace Speiseplan.ViewModels
 {
@@ -77,10 +79,11 @@ namespace Speiseplan.ViewModels
             _dialogService = dialogService;
 
 
-            _menuItems = menuService.MenuList;
-            MenuItems = _menuService.MenuList;
+            
+            MenuItems = _menuService.MenuList.ToList();
 
-            _menuService.MenuListHasChanged += OnMenuListHasChanged;
+            _menuService.MenusChanged += OnMenusChanged;
+            //_menuService.MenuListHasChanged += OnMenuListHasChanged;
 
             _navigationService = navigationService;
             
@@ -117,9 +120,19 @@ namespace Speiseplan.ViewModels
             });
         }
 
-        private void OnMenuListHasChanged(object? sender, EventArgs e)
+        public override void Dispose()
         {
-            MenuItems = _menuService.MenuList;
+            _menuService.MenusChanged -= OnMenusChanged;
+            _menuItems = null;
+
+        }
+
+        private void OnMenusChanged(object? sender, MenusChangedEventArgs args)
+        {
+            if (args.ChangeType == MenuChangeType.Created || args.ChangeType == MenuChangeType.Deleted || args.ChangeType == MenuChangeType.Updated || args.ChangeType == MenuChangeType.Loaded)
+            {
+                MenuItems = _menuService.MenuList.ToList();
+            }
         }
 
         private void ItemSelected(Menu item)
@@ -143,12 +156,6 @@ namespace Speiseplan.ViewModels
             await _menuService.GetAllMenusAsync();
 
             IsRefreshing = false;
-        }
-
-        public override void Dispose()
-        {
-            _menuItems = null;
-           
         }
     }
 }

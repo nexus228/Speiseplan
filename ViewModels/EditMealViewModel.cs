@@ -67,12 +67,10 @@ namespace Speiseplan.ViewModels
         }
         private async void SaveMeal(object obj)
         {
-            Meal menuToSave = Meal;
-            menuToSave.Name = Name;
+            Meal mealToSave = Meal;
+            mealToSave.Name = Name;
 
-            await _menuService.UpdateMealAsync(menuToSave);
-
-            await _menuService.GetAllMenusAsync();
+            await _menuService.UpdateMealAsync(mealToSave);
 
             _navigationService.GoBack();
         }

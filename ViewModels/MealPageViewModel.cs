@@ -1,10 +1,9 @@
 ﻿using Speiseplan.Model;
 using Speiseplan.Services;
+using Speiseplan.Services.CustomEventArgs;
+using Speiseplan.Services.Enum;
 using Speiseplan.Utils;
 using Speiseplan.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 
 namespace Speiseplan.ViewModels
@@ -13,18 +12,17 @@ namespace Speiseplan.ViewModels
     {
         private IList<Meal> _mealItems;
 
+        private readonly IMenuService _menuService;
+
         private INavigationService _navigationService;
 
-        public IList<Meal>? MealItems
+        public IList<Meal> MealItems
         {
             get => _mealItems;
             private set
             {
-                if (value != null && value != _mealItems)
-                {
-                    _mealItems = value;
-                    OnPropertyChanged(nameof(MealItems));
-                }
+                _mealItems = value;
+                OnPropertyChanged(nameof(MealItems));
             }
         }
 
@@ -32,12 +30,30 @@ namespace Speiseplan.ViewModels
 
         public ICommand EditItemCommand { get; }
 
-        public MealPageViewModel(INavigationService navigationService)
+        public MealPageViewModel(IMenuService menuService, INavigationService navigationService)
         {
+            _menuService = menuService;
             _navigationService = navigationService;
+
             _mealItems = new List<Meal>();
 
+
+            _menuService.MenusChanged += OnMenusChanged;
+
             EditItemCommand = new Command<Meal>(EditItemDesired);
+        }
+
+        private void OnMenusChanged(object? sender, MenusChangedEventArgs args)
+        {
+            if (args.ChangeType == MenuChangeType.Updated)
+            {
+                var updatedMenu = args.AffectedMenu;
+                if (updatedMenu != null && Day != null && updatedMenu.ID == Day.MenuId)
+                {
+                    Day = updatedMenu.Days.FirstOrDefault(d => d.Id == Day.Id);
+                    MealItems = Day.Meal;
+                }
+            }
         }
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -58,7 +74,7 @@ namespace Speiseplan.ViewModels
 
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            _menuService.MenusChanged -= OnMenusChanged;
         }
 
 

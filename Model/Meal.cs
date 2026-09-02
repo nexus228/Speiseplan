@@ -1,14 +1,27 @@
-﻿namespace Speiseplan.Model
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+namespace Speiseplan.Model
 {
-    public class Meal
+    public class Meal : INotifyPropertyChanged
     {
         public int Id { get; set; }
 
         public int DayId { get; set; }
 
-        public string? Name { get; set; }
+        private string _name = string.Empty;
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (_name == value) return;
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public string? Description { get; set; }
+        public string Description { get; set; } = string.Empty;
 
         public string? ReceiptURL { get; set; }
 
@@ -23,5 +36,10 @@
         public string? ImageURL { get; set; }
 
         public MealIdentifier? Identifier { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
