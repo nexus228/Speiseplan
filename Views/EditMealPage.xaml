@@ -4,6 +4,11 @@
              x:Class="Speiseplan.Views.EditMealPage"
              Title="EditMealPage">
     <VerticalStackLayout>
+
+        <Image Source="{Binding ImageUrl}" Aspect="AspectFill" HeightRequest="150" />
+
+        <ImageButton Source="pencil.png" Command="{Binding EditImageCommand}" HeightRequest="50" WidthRequest="50" />
+
         <Entry
              Text="{Binding Name, Mode=TwoWay}"
              VerticalTextAlignment="Center"

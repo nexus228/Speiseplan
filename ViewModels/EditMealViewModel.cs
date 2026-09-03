@@ -1,5 +1,6 @@
 ﻿using Speiseplan.Model;
 using Speiseplan.Services;
+using Speiseplan.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -37,6 +38,10 @@ namespace Speiseplan.ViewModels
 
         public ICommand SaveCommand { get; private set; }
 
+        public ICommand EditImageCommand { get; private set; }
+
+        
+
         public EditMealViewModel(IMenuService menuService, INavigationService navigationService)
         {
             Meal = new Meal();
@@ -45,8 +50,11 @@ namespace Speiseplan.ViewModels
             _navigationService = navigationService;
 
             SaveCommand = new Command(SaveMeal);
+
+            EditImageCommand = new Command(EditImage);
         }
 
+        
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             if (query != null)
@@ -75,6 +83,17 @@ namespace Speiseplan.ViewModels
             _navigationService.GoBack();
         }
 
-        
+        private async void EditImage(object obj)
+        {
+
+            var viewModel = new ImageGalleryViewModel();
+            var popupView = new ImageGalleryPopup(viewModel);
+
+            string? selectedUrl = await _navigationService.ShowModalAsync(popupView, true);
+
+        }
+
+
+
     }
 }
