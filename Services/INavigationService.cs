@@ -15,8 +15,7 @@ namespace Speiseplan.Services
 
         void ShowRootPage();
 
-        Task ShowModalAsync(View view, bool canBeDismissedByTappingOutside = true);
+        Task ShowModalAsync(View view, bool canBeDismissedByTappingOutside);
 
-        Task<T?> ShowModalAsync<T>(Popup<T> popup, bool canBeDismissedByTappingOutside = true);
     }
 }

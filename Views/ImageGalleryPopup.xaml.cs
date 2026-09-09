@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Views;
+using Java.Net;
 using Speiseplan.ViewModels;
 
 namespace Speiseplan.Views;
@@ -11,9 +12,13 @@ public partial class ImageGalleryPopup : Popup<string>
         InitializeComponent();
         BindingContext = viewModel;
         _viewModel = viewModel;
-       
+
+        
+
         this.Opened += async (s, e) => await _viewModel.LoadImagesAsync();
+
+        
     }
 
- 
+
 }

@@ -17,6 +17,7 @@ namespace Speiseplan.ViewModels
         private readonly INavigationService _navigationService;
 
         private string _name;
+        private string _imageUrl;
 
         #endregion
 
@@ -33,6 +34,19 @@ namespace Speiseplan.ViewModels
             {
                 _name = value;
                 OnPropertyChanged("Name");
+            }
+        }
+
+        public string ImageUrl
+        {
+            get
+            {
+                return _imageUrl;
+            }
+            set
+            {
+                _imageUrl = value;
+                OnPropertyChanged("ImageUrl");
             }
         }
 
@@ -64,6 +78,9 @@ namespace Speiseplan.ViewModels
 
                 Name = Meal.Name;
                 OnPropertyChanged("Name");
+
+                ImageUrl = Meal.ImageURL;
+                OnPropertyChanged("ImageUrl");
             }
 
         }
@@ -77,6 +94,7 @@ namespace Speiseplan.ViewModels
         {
             Meal mealToSave = Meal;
             mealToSave.Name = Name;
+            mealToSave.ImageURL = ImageUrl;
 
             await _menuService.UpdateMealAsync(mealToSave);
 
@@ -87,9 +105,18 @@ namespace Speiseplan.ViewModels
         {
 
             var viewModel = new ImageGalleryViewModel();
+            viewModel.SetInitialSelection(ImageUrl);
+
             var popupView = new ImageGalleryPopup(viewModel);
 
-            string? selectedUrl = await _navigationService.ShowModalAsync(popupView, true);
+            viewModel.ImageSelectionFinished += (sender, selectedImageUrl) =>
+            {   
+                ImageUrl = selectedImageUrl;
+
+                popupView.CloseAsync();
+            };
+
+            await _navigationService.ShowModalAsync(popupView, false);
 
         }
 

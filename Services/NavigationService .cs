@@ -41,7 +41,7 @@ namespace Speiseplan.Services
             Application.Current!.Windows[0].Page = new AppShell();
         }
 
-        public async Task ShowModalAsync(View view, bool canBeDismissedByTappingOutside = true)
+        public async Task ShowModalAsync(View view, bool canBeDismissedByTappingOutside)
         {
             var currentPage = GetCurrentPage();
             if (currentPage is null) return;
@@ -50,22 +50,6 @@ namespace Speiseplan.Services
             {
                 CanBeDismissedByTappingOutsideOfPopup = canBeDismissedByTappingOutside
             });
-        }
-
-        public async Task<T?> ShowModalAsync<T>(Popup<T> popup, bool canBeDismissedByTappingOutside = true)
-        {
-            var currentPage = GetCurrentPage();
-            if (currentPage is null) return default;
-
-            IPopupResult<T> result = await currentPage.ShowPopupAsync<T>(popup, new PopupOptions
-            {
-                CanBeDismissedByTappingOutsideOfPopup = canBeDismissedByTappingOutside
-            });
-
-            if (result.WasDismissedByTappingOutsideOfPopup)
-                return default;
-
-            return result.Result;
-        }      
+        }   
     }
 }

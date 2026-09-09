@@ -1,6 +1,8 @@
 ﻿
-using System.Collections.ObjectModel;
+using Speiseplan.Services.CustomEventArgs;
 using Supabase;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Speiseplan.ViewModels
 {
@@ -20,14 +22,45 @@ namespace Speiseplan.ViewModels
             }
         }
 
+        private string _selectedImageUrl = string.Empty;
+        public string SelectedImageUrl
+        {
+            get => _selectedImageUrl;
+            set
+            {
+                _selectedImageUrl = value; 
+                OnPropertyChanged(nameof(SelectedImageUrl)); 
+            }
+        }
+
         public ObservableCollection<string> ImageUrls { get; } = new();
+
+        public event EventHandler<string>? ImageSelectionFinished;
+
+        public ICommand ImageSelectedCommand => new Command<string>(url =>
+        {
+            ImageSelectionFinished?.Invoke(this, url);
+        });
 
         public ImageGalleryViewModel()
         {
+           
             _supabase = new Client(
                 "https://flmibwdoetmpnywaqtvs.supabase.co",
                 "sb_publishable_MBbmyPQMPFG1K-zwV6b26Q_iKJf21Nu"
             );
+        }
+
+        public void SetInitialSelection(string? currentUrl)
+        {
+            if (currentUrl == null)
+            {
+                SelectedImageUrl = string.Empty;
+            }
+            else 
+            {
+                SelectedImageUrl = currentUrl;
+            }     
         }
 
         public async Task LoadImagesAsync()
@@ -47,7 +80,19 @@ namespace Speiseplan.ViewModels
             ImageUrls.Add(string.Empty);
             foreach (var file in files.Where(f => f.Name.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)))
             {
-                ImageUrls.Add(bucket.GetPublicUrl($"public/{file.Name}"));
+                string publicUrl = bucket.GetPublicUrl($"public/{file.Name}");
+                ImageUrls.Add(publicUrl);
+
+                
+            }
+
+            foreach (var stringUrl in ImageUrls)
+            {
+                if (SelectedImageUrl.Equals(stringUrl))
+                {
+                    SelectedImageUrl = stringUrl;
+                    break;
+                }
             }
 
             IsLoading = false;
