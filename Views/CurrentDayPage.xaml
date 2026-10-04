@@ -2,29 +2,74 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Speiseplan.Views.CurrentDayPage"
+             xmlns:model="clr-namespace:Speiseplan.Model"
+             xmlns:viewmodel="clr-namespace:Speiseplan.ViewModels"
              Title="CurrentDayPage">
 
-    <Grid>
+    <CollectionView
+ItemsSource="{Binding MealItems}"
+SelectionMode="None">
 
-        <Grid>
-            <VerticalStackLayout>
-                <Label 
-        Text="Welcome to CurrentDayPage"
-        VerticalOptions="Center" 
-        HorizontalOptions="Center" />
-            </VerticalStackLayout>
-        </Grid>
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="model:Meal">
+                <VerticalStackLayout Spacing="8">
 
-        <Grid>
+                    <!-- MealIdentifier / Separator -->
+                    <Grid
+                Margin="10,15,0,5"
+                ColumnDefinitions="Auto,*"
+                ColumnSpacing="10">
+
+                        <Label
+                    Text="{Binding Identifier}"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    VerticalOptions="Center" />
+
+                    </Grid>
+
+                    <!-- Meal -->
+                    <Border
+                Padding="15"
+                StrokeThickness="1">
+
+                        <VerticalStackLayout>
+
+                            <HorizontalStackLayout Margin="0,0,0,10">
+
+                                <Image 
+                                   Source="{Binding ImageURL}"
+                                   WidthRequest="100" Margin="0,0,10,0">
+
+                                </Image>
+
+                                <Label
+                                    Text="{Binding Name}"
+                                    VerticalTextAlignment="Center"
+                                    TextColor="Black"
+                                    FontSize="16" />
+
+                            </HorizontalStackLayout>
 
 
-            <ActivityIndicator 
-    IsRunning="{Binding IsLoading}" 
-    Color="Orange" 
-    HorizontalOptions="Center" 
-    VerticalOptions="Center" />
 
-        </Grid>
-    </Grid>
+                            <Button 
+    Text="Rezept anzeigen" 
+    BackgroundColor="{DynamicResource Primary}"
+    IsEnabled="{Binding HasReceipt}"/>
+
+
+                        </VerticalStackLayout>
+
+
+
+                    </Border>
+
+                </VerticalStackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+
+    </CollectionView>
+
 
 </ContentPage>

@@ -35,6 +35,20 @@ namespace Speiseplan.Model
 
         public string? ImageURL { get; set; }
 
+        private ImageSource? _mealImage;
+        public ImageSource? MealImage
+        {
+            get
+            {
+                return _mealImage;
+            }
+            set
+            {
+                _mealImage = value;
+                OnPropertyChanged(nameof(MealImage));
+            }
+        }
+
         public MealIdentifier? Identifier { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;

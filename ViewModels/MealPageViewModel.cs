@@ -16,6 +16,8 @@ namespace Speiseplan.ViewModels
 
         private INavigationService _navigationService;
 
+        
+
         public IList<Meal> MealItems
         {
             get => _mealItems;
@@ -25,6 +27,7 @@ namespace Speiseplan.ViewModels
                 OnPropertyChanged(nameof(MealItems));
             }
         }
+        
 
         public Day? Day { get; private set; }
 
@@ -51,7 +54,8 @@ namespace Speiseplan.ViewModels
                 if (updatedMenu != null && Day != null && updatedMenu.ID == Day.MenuId)
                 {
                     Day = updatedMenu.Days.FirstOrDefault(d => d.Id == Day.Id);
-                    MealItems = Day.Meal;
+                    if(Day != null)
+                        MealItems = Day.Meal;  
                 }
             }
         }
